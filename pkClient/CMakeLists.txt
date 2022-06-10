@@ -11,6 +11,13 @@ LINK_DIRECTORIES(
 
 add_executable(pkclient 
     main.cpp
+    game.cpp
+    chatbuffer.cpp
+    netcmd.cpp
+    netclient.cpp
+    phasestatemachine.cpp
+    menuphase.cpp
+    gamephase.cpp
 )
 
 TARGET_LINK_LIBRARIES(pkclient
