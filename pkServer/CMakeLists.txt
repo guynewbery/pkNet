@@ -11,9 +11,9 @@ LINK_DIRECTORIES(
 
 add_executable(pkserver 
     main.cpp
-    netcmd.cpp
 )
 
 TARGET_LINK_LIBRARIES(pkserver
     raylib
+	pkcommon
 )

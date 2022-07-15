@@ -13,7 +13,6 @@ add_executable(pkclient
     main.cpp
     game.cpp
     chatbuffer.cpp
-    netcmd.cpp
     netclient.cpp
     phasestatemachine.cpp
     menuphase.cpp
@@ -22,4 +21,5 @@ add_executable(pkclient
 
 TARGET_LINK_LIBRARIES(pkclient
     raylib
+	pkcommon
 )
