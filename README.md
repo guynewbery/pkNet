@@ -19,6 +19,7 @@ https://visualstudio.microsoft.com/visual-cpp-build-tools/
 (Make sure to install MSVC build tools and Windows 10 SDK)
 
   - Install vcpkg
+
 cd c:\
 git clone https://github.com/microsoft/vcpkg
 cd vcpkg
