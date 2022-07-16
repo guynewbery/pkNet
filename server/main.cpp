@@ -10,8 +10,7 @@
 
 #include <stdio.h>
 #include <string>
-#include "netcmd.h"
-#include "netconsts.h"
+#include "pknet.h"
 
 struct NetPlayer
 {
@@ -21,11 +20,11 @@ struct NetPlayer
     std::string m_Chat;
 };
 
-static NetPlayer s_Players[NetConsts::s_MaxPlayers];
+static NetPlayer s_Players[pkNet::s_MaxPlayers];
 
 static int GetFirstInactivePlayerId()
 {
-    for (int i = 0; i < NetConsts::s_MaxPlayers; ++i)
+    for (int i = 0; i < pkNet::s_MaxPlayers; ++i)
     {
         if (!s_Players[i].m_IsActive)
         {
@@ -37,7 +36,7 @@ static int GetFirstInactivePlayerId()
 
 static int GetPlayerId(ENetPeer* peer)
 {
-    for (int i = 0; i < NetConsts::s_MaxPlayers; ++i)
+    for (int i = 0; i < pkNet::s_MaxPlayers; ++i)
     {
         if (s_Players[i].m_IsActive && s_Players[i].m_Peer == peer)
         {
@@ -50,11 +49,11 @@ static int GetPlayerId(ENetPeer* peer)
 static void SentAcceptPlayer(ENetPeer* peer, int acceptedPlayerId)
 { 
     printf("\n\tENET_EVENT_SEND\n");
-    printf("\t\tNetCmd::AcceptPlayer\n");
+    printf("\t\tpkNet::NetCmd::AcceptPlayer\n");
 
     uint8_t data[8] = { 0 };
-    NetCmdBuffer buffer(data, sizeof(data));
-    buffer.WriteInt(static_cast<int>(NetCmd::AcceptPlayer));
+    pkNet::NetCmdBuffer buffer(data, sizeof(data));
+    buffer.WriteInt(static_cast<int>(pkNet::NetCmd::AcceptPlayer));
     buffer.WriteInt(acceptedPlayerId);
 
     ENetPacket* packet = enet_packet_create(buffer.GetData(), buffer.GetSize(), ENET_PACKET_FLAG_RELIABLE);
@@ -64,11 +63,11 @@ static void SentAcceptPlayer(ENetPeer* peer, int acceptedPlayerId)
 static void SentAddPlayer(ENetPeer* peer, int addedPlayerId)
 { 
     printf("\n\tENET_EVENT_SEND\n");
-    printf("\t\tNetCmd::AddPlayer\n");
+    printf("\t\tpkNet::NetCmd::AddPlayer\n");
 
     uint8_t data[64] = { 0 };
-    NetCmdBuffer buffer(data, sizeof(data));
-    buffer.WriteInt(static_cast<int>(NetCmd::AddPlayer));
+    pkNet::NetCmdBuffer buffer(data, sizeof(data));
+    buffer.WriteInt(static_cast<int>(pkNet::NetCmd::AddPlayer));
     buffer.WriteInt(addedPlayerId);
 
     for (int i = 0; i <= s_Players[addedPlayerId].m_PlayerName.size(); ++i)
@@ -83,11 +82,11 @@ static void SentAddPlayer(ENetPeer* peer, int addedPlayerId)
 static void SentRemovePlayer(ENetPeer* peer, int removedPlayerId)
 { 
     printf("\n\tENET_EVENT_SEND\n");
-    printf("\t\tNetCmd::RemovePlayer\n");
+    printf("\t\tpkNet::NetCmd::RemovePlayer\n");
 
     uint8_t data[8] = { 0 };
-    NetCmdBuffer buffer(data, sizeof(data));
-    buffer.WriteInt(static_cast<int>(NetCmd::RemovePlayer));
+    pkNet::NetCmdBuffer buffer(data, sizeof(data));
+    buffer.WriteInt(static_cast<int>(pkNet::NetCmd::RemovePlayer));
     buffer.WriteInt(removedPlayerId);
 
     ENetPacket* packet = enet_packet_create(buffer.GetData(), buffer.GetSize(), ENET_PACKET_FLAG_RELIABLE);
@@ -97,11 +96,11 @@ static void SentRemovePlayer(ENetPeer* peer, int removedPlayerId)
 static void SentChatToClient(ENetPeer* peer, int chattingPlayerId)
 { 
     printf("\n\tENET_EVENT_SEND\n");
-    printf("\t\tNetCmd::ChatToClient\n");
+    printf("\t\tpkNet::NetCmd::ChatToClient\n");
 
     uint8_t data[512] = { 0 };
-    NetCmdBuffer buffer(data, sizeof(data));
-    buffer.WriteInt(static_cast<int>(NetCmd::ChatToClient));
+    pkNet::NetCmdBuffer buffer(data, sizeof(data));
+    buffer.WriteInt(static_cast<int>(pkNet::NetCmd::ChatToClient));
     buffer.WriteInt(chattingPlayerId);
 
     for (int i = 0; i <= s_Players[chattingPlayerId].m_Chat.size(); ++i)
@@ -123,9 +122,9 @@ int main(void)
 
     ENetAddress address = { 0 };
     address.host = ENET_HOST_ANY;
-    address.port = NetConsts::s_Port;
+    address.port = pkNet::s_Port;
 
-    ENetHost* server = enet_host_create(&address, NetConsts::s_MaxPlayers, 2, 0, 0);
+    ENetHost* server = enet_host_create(&address, pkNet::s_MaxPlayers, 2, 0, 0);
 
     if (server == NULL) 
     {
@@ -156,7 +155,7 @@ int main(void)
 
                     SentAcceptPlayer(event.peer, playerId);
 
-                    for (int i = 0; i < NetConsts::s_MaxPlayers; ++i)
+                    for (int i = 0; i < pkNet::s_MaxPlayers; ++i)
                     {
                         // Inform the newly accepted player of clients that are already on the server
                         if (i != playerId && s_Players[i].m_Peer)
@@ -181,15 +180,15 @@ int main(void)
                 {
                     const int size = static_cast<int>(event.packet->dataLength);
 
-                    NetCmdBuffer buffer(event.packet->data, size);
+                    pkNet::NetCmdBuffer buffer(event.packet->data, size);
 
-                    const NetCmd cmd = static_cast<NetCmd>(buffer.ReadInt());
+                    const pkNet::NetCmd cmd = static_cast<pkNet::NetCmd>(buffer.ReadInt());
 
                     switch (cmd)
                     {
-                    case NetCmd::UpdatePlayerName:
+                    case pkNet::NetCmd::UpdatePlayerName:
                     {
-                        printf("\tNetCmd::UpdatePlayerName\n");
+                        printf("\tpkNet::NetCmd::UpdatePlayerName\n");
 
                         const int playerId = buffer.ReadInt();
                         printf("\tplayerId = %d\n", playerId);
@@ -205,7 +204,7 @@ int main(void)
                         s_Players[playerId].m_PlayerName = playerName;
                         printf("\tplayerName = %s\n", playerName);
 
-                        for (int i = 0; i < NetConsts::s_MaxPlayers; ++i)
+                        for (int i = 0; i < pkNet::s_MaxPlayers; ++i)
                         {
                             // Now that we have a name set for this player, let everyone know.
                             if (s_Players[i].m_Peer)
@@ -217,9 +216,9 @@ int main(void)
                         break;
                     }
 
-                    case NetCmd::ChatToServer:
+                    case pkNet::NetCmd::ChatToServer:
                     {
-                        printf("\tNetCmd::ChatToServer\n");
+                        printf("\tpkNet::NetCmd::ChatToServer\n");
 
                         const int playerId = buffer.ReadInt();
                         printf("\tplayerId = %d\n", playerId);
@@ -235,7 +234,7 @@ int main(void)
                         s_Players[playerId].m_Chat = chat;
                         printf("\tchat = %s\n", chat);
 
-                        for (int i = 0; i < NetConsts::s_MaxPlayers; ++i)
+                        for (int i = 0; i < pkNet::s_MaxPlayers; ++i)
                         {
                             if (s_Players[i].m_Peer)
                             {
@@ -267,7 +266,7 @@ int main(void)
                     s_Players[playerId].m_IsActive = false;
                 }
 
-                for (int i = 0; i < NetConsts::s_MaxPlayers; ++i)
+                for (int i = 0; i < pkNet::s_MaxPlayers; ++i)
                 {
                     // Remove this player from all clients that are still active on the sever
 

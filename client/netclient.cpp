@@ -10,8 +10,7 @@
 #define ENET_IMPLEMENTATION
 #include "enet.h"
 
-#include "netcmd.h"
-#include "netconsts.h"
+#include "pknet.h"
 #include <assert.h>
 #include <string>
 
@@ -29,7 +28,7 @@ struct NetClientData
     ENetPeer* m_Server = nullptr;
     int m_LocalPlayerId = -1;
     std::string m_LocalPlayerName;
-    NetPlayer m_Players[NetConsts::s_MaxPlayers];
+    NetPlayer m_Players[pkNet::s_MaxPlayers];
 };
 
 static NetClientData* s_NetClientData;
@@ -37,11 +36,11 @@ static NetClientData* s_NetClientData;
 static void SendUpdatePlayerName()
 {
     printf("\n\tENET_EVENT_SEND\n");
-    printf("\t\tNetCmd::UpdatePlayerName\n");
+    printf("\t\tpkNet::NetCmd::UpdatePlayerName\n");
 
     uint8_t data[64] = { 0 };
-    NetCmdBuffer buffer(data, sizeof(data));
-    buffer.WriteInt(static_cast<int>(NetCmd::UpdatePlayerName));
+    pkNet::NetCmdBuffer buffer(data, sizeof(data));
+    buffer.WriteInt(static_cast<int>(pkNet::NetCmd::UpdatePlayerName));
     buffer.WriteInt(s_NetClientData->m_LocalPlayerId);
 
     for (int i = 0; i <= s_NetClientData->m_LocalPlayerName.size(); ++i)
@@ -56,11 +55,11 @@ static void SendUpdatePlayerName()
 static void SendChatToServer(std::string chat)
 {
     printf("\n\tENET_EVENT_SEND\n");
-    printf("\t\tNetCmd::ChatToServer\n");
+    printf("\t\tpkNet::NetCmd::ChatToServer\n");
 
     uint8_t data[512] = { 0 };
-    NetCmdBuffer buffer(data, sizeof(data));
-    buffer.WriteInt(static_cast<int>(NetCmd::ChatToServer));
+    pkNet::NetCmdBuffer buffer(data, sizeof(data));
+    buffer.WriteInt(static_cast<int>(pkNet::NetCmd::ChatToServer));
     buffer.WriteInt(s_NetClientData->m_LocalPlayerId);
 
     for (int i = 0; i <= chat.size(); ++i)
@@ -125,7 +124,7 @@ int NetClient::ConnectToServer(const char *ipAdress) //"127.0.0.1"
     }
 
     enet_address_set_host(&s_NetClientData->m_Address, ipAdress);
-    s_NetClientData->m_Address.port = NetConsts::s_Port;
+    s_NetClientData->m_Address.port = pkNet::s_Port;
     
     s_NetClientData->m_Server = enet_host_connect(s_NetClientData->m_Client, &s_NetClientData->m_Address, 2, 0);
 
@@ -164,15 +163,15 @@ void NetClient::UpdateNetClient()
             {
                 const int size = static_cast<int>(event.packet->dataLength);
 
-                NetCmdBuffer buffer(event.packet->data, size);
+                pkNet::NetCmdBuffer buffer(event.packet->data, size);
 
-                NetCmd cmd = static_cast<NetCmd>(buffer.ReadInt());
+                pkNet::NetCmd cmd = static_cast<pkNet::NetCmd>(buffer.ReadInt());
 
                 if (s_NetClientData->m_LocalPlayerId == -1)
                 {
-                    if (cmd == NetCmd::AcceptPlayer)
+                    if (cmd == pkNet::NetCmd::AcceptPlayer)
                     {
-                        printf("\tNetCmd::AcceptPlayer\n");
+                        printf("\tpkNet::NetCmd::AcceptPlayer\n");
 
                         const int playerId = buffer.ReadInt();
                         printf("\tplayerId = %d\n", playerId);
@@ -187,9 +186,9 @@ void NetClient::UpdateNetClient()
                 {
                     switch (cmd)
                     {
-                    case NetCmd::AddPlayer:
+                    case pkNet::NetCmd::AddPlayer:
                     {
-                        printf("\tNetCmd::AddPlayer\n");
+                        printf("\tpkNet::NetCmd::AddPlayer\n");
 
                         const int playerId = buffer.ReadInt();
                         printf("\tplayerId = %d\n", playerId);
@@ -208,9 +207,9 @@ void NetClient::UpdateNetClient()
                         break;
                     }
 
-                    case NetCmd::RemovePlayer:
+                    case pkNet::NetCmd::RemovePlayer:
                     {
-                        printf("\tNetCmd::RemovePlayer\n");
+                        printf("\tpkNet::NetCmd::RemovePlayer\n");
 
                         const int playerId = buffer.ReadInt();
                         printf("\tplayerId = %d\n", playerId);
@@ -219,9 +218,9 @@ void NetClient::UpdateNetClient()
                         break;
                     }
 
-                    case NetCmd::ChatToClient:
+                    case pkNet::NetCmd::ChatToClient:
                     {
-                        printf("\tNetCmd::ChatToClient\n");
+                        printf("\tpkNet::NetCmd::ChatToClient\n");
 
                         const int playerId = buffer.ReadInt();
                         printf("\tplayerId = %d\n", playerId);
