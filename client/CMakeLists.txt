@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(pkclient VERSION 0.1.0)
+project(client VERSION 0.1.0)
 
 include_directories(
     C:/vcpkg/installed/x64-windows/include
@@ -9,9 +9,9 @@ link_directories(
    C:/vcpkg/installed/x64-windows/lib
 )
 
-add_subdirectory(../pkCommon ../pkCommon/build)
+add_subdirectory(../common ../common/build)
 
-add_executable(pkclient 
+add_executable(client 
     main.cpp
     game.cpp
     chatbuffer.cpp
@@ -21,7 +21,7 @@ add_executable(pkclient
     gamephase.cpp
 )
 
-target_link_libraries(pkclient
+target_link_libraries(client
     raylib
-    pkcommon
+    common
 )
