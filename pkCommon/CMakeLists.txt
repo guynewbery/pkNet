@@ -1,5 +1,8 @@
-add_library (pkcommon hello.cxx)
+cmake_minimum_required(VERSION 3.0.0)
+project(pkcommon VERSION 0.1.0)
 
-# Make sure the compiler can find include files for our pkcommon library
-# when other libraries or executables link to pkcommon
+add_library(pkcommon 
+	netcmd.cpp
+)
+
 target_include_directories (pkcommon PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

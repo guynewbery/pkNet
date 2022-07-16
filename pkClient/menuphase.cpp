@@ -75,8 +75,8 @@ void MenuPhase::DrawPhase()
     {
     case MenuState::EnterName:
     {
-        DrawText("What is your name?", 190, 200, 20, LIGHTGRAY);
-        DrawText(s_Name.GetChatBuffer().c_str(), 300, 300, 40, MAROON);
+        DrawText("What is your name?", 150, 150, 20, LIGHTGRAY);
+        DrawText(s_Name.GetChatBuffer().c_str(), 250, 250, 40, MAROON);
         break;
     }
 
@@ -87,8 +87,8 @@ void MenuPhase::DrawPhase()
 
     case MenuState::EnterAddress:
     {
-        DrawText("What is your destination?", 190, 200, 20, LIGHTGRAY);
-        DrawText(s_Address.GetChatBuffer().c_str(), 300, 300, 40, MAROON);
+        DrawText("What is your destination?", 150, 150, 20, LIGHTGRAY);
+        DrawText(s_Address.GetChatBuffer().c_str(), 250, 250, 40, MAROON);
         break;
     }
 

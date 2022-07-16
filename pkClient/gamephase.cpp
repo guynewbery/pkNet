@@ -32,7 +32,7 @@ void GamePhase::DrawPhase()
 {    
     if (NetClient::IsConnected())
     {
-        int yPos = 200;
+        int yPos = 100;
 
         for (int i = 0; i < NetConsts::s_MaxPlayers; ++i)
         {
@@ -44,6 +44,6 @@ void GamePhase::DrawPhase()
             }
         }
 
-        DrawText(s_Chat.GetChatBuffer().c_str(), 100, 750, 20, LIGHTGRAY);
+        DrawText(s_Chat.GetChatBuffer().c_str(), 100, 400, 20, LIGHTGRAY);
     }
 }

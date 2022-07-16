@@ -1,13 +1,15 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(pkclient VERSION 0.1.0)
 
-INCLUDE_DIRECTORIES(
+include_directories(
     C:/vcpkg/installed/x64-windows/include
 )
 
-LINK_DIRECTORIES(
+link_directories(
    C:/vcpkg/installed/x64-windows/lib
-) 
+)
+
+add_subdirectory(../pkCommon ../pkCommon/build)
 
 add_executable(pkclient 
     main.cpp
@@ -19,7 +21,7 @@ add_executable(pkclient
     gamephase.cpp
 )
 
-TARGET_LINK_LIBRARIES(pkclient
+target_link_libraries(pkclient
     raylib
-	pkcommon
+    pkcommon
 )
