@@ -5,8 +5,8 @@
 #include "phasestatemachine.h"
 #include "raylib.h"
 
-static int constexpr screenWidth = 1000;
-static int constexpr screenHeight = 1000;
+static int constexpr screenWidth = 960;
+static int constexpr screenHeight = 540;
 
 struct Game
 {
@@ -22,7 +22,7 @@ void BeginGame()
 
     NetClient::StartUpNetClient();
 
-    InitWindow(screenWidth, screenHeight, "pkClient");
+    InitWindow(screenWidth, screenHeight, "client");
     SetTargetFPS(60);
 }
 

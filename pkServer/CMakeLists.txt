@@ -9,6 +9,8 @@ LINK_DIRECTORIES(
    C:/vcpkg/installed/x64-windows/lib
 ) 
 
+add_subdirectory(../pkCommon ../pkCommon/build)
+
 add_executable(pkserver 
     main.cpp
 )
