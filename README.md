@@ -28,10 +28,14 @@ vcpkg integrate install
 ```
 
   - Install raylib
+```c
 c:\vcpkg\vcpkg install raylib:x64-windows
+```
 
   - Install rttr
+```c
 c:\vcpkg\vcpkg install rttr:x64-windows
+```
 
   - Configure vcpkg for Visual Studio Code
 https://gamefromscratch.com/vcpkg-cpp-easy-mode-step-by-step-tutorial/
