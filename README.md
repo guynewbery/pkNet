@@ -5,22 +5,16 @@ A toy game engine that you can play around with
 
 # Setup
 
-  - Install chocolatey
-
-https://chocolatey.org/install
+  - Install chocolatey (https://chocolatey.org/install)
 
   - Install git
 ```c
 choco install git.install
 ```
 
-  - Install Visual Studio Code
+  - Install Visual Studio Code (https://code.visualstudio.com/download)
 
-https://code.visualstudio.com/download
-
-  - Install Microsoft C++ Build Tools
-
-https://visualstudio.microsoft.com/visual-cpp-build-tools/ (Make sure to install MSVC build tools and Windows 10 SDK)
+  - Install Microsoft C++ Build Tools, making sure to install MSVC build tools and Windows 10 SDK (https://visualstudio.microsoft.com/visual-cpp-build-tools/)
 
   - Install vcpkg
 ```c
@@ -41,9 +35,7 @@ c:\vcpkg\vcpkg install raylib:x64-windows
 c:\vcpkg\vcpkg install rttr:x64-windows
 ```
 
-  - Configure vcpkg for Visual Studio Code
-
-https://gamefromscratch.com/vcpkg-cpp-easy-mode-step-by-step-tutorial/
+  - Configure vcpkg for Visual Studio Code (https://gamefromscratch.com/vcpkg-cpp-easy-mode-step-by-step-tutorial/)
 
 
 # Resources
