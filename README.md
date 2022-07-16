@@ -19,12 +19,13 @@ https://visualstudio.microsoft.com/visual-cpp-build-tools/
 (Make sure to install MSVC build tools and Windows 10 SDK)
 
   - Install vcpkg
-
+```c
 cd c:\
 git clone https://github.com/microsoft/vcpkg
 cd vcpkg
 bootstrap-vcpkg.bat
 vcpkg integrate install
+```
 
   - Install raylib
 c:\vcpkg\vcpkg install raylib:x64-windows
