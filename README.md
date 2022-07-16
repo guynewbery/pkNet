@@ -20,9 +20,7 @@ https://code.visualstudio.com/download
 
   - Install Microsoft C++ Build Tools
 
-https://visualstudio.microsoft.com/visual-cpp-build-tools/
-
-(Make sure to install MSVC build tools and Windows 10 SDK)
+https://visualstudio.microsoft.com/visual-cpp-build-tools/ (Make sure to install MSVC build tools and Windows 10 SDK)
 
   - Install vcpkg
 ```c
