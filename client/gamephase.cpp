@@ -2,7 +2,7 @@
 
 #include "chatbuffer.h"
 #include "netclient.h"
-#include "netconsts.h"
+#include "pknet.h"
 #include "raylib.h"
 
 static ChatBuffer s_Chat(256);
@@ -34,7 +34,7 @@ void GamePhase::DrawPhase()
     {
         int yPos = 100;
 
-        for (int i = 0; i < NetConsts::s_MaxPlayers; ++i)
+        for (int i = 0; i < pkNet::s_MaxPlayers; ++i)
         {
             if (NetClient::IsPlayerActive(i))
             {
