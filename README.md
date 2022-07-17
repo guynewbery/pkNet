@@ -1,7 +1,6 @@
 # pkNet
 
-A toy game engine that you can play around with
-
+A toy game engine
 
 # Setup
 
